@@ -382,9 +382,7 @@ class BugHook {
 
 		$parts=parse_url($url);
 
-		$fp = fsockopen($parts['host'],
-			isset($parts['port'])?$parts['port']:80,
-			$errno, $errstr, 30);
+		$fp = fsockopen($parts['host'],isset($parts['port'])?$parts['port']:80,$errno, $errstr, 30);
 
 		$out = "POST ".$parts['path']." HTTP/1.1\r\n";
 		$out.= "Host: ".$parts['host']."\r\n";
