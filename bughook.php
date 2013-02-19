@@ -316,7 +316,7 @@ class BugHook {
 	private static function flushErrorQueue() {
 		if(!empty(self::$errorQueue)) {
 			// Post the request to BugHook
-			$statusCode = self::postJSON(self::getEndpoint(), array(
+			self::postJSON(self::getEndpoint(), array(
 				'apiKey' => self::$apiKey,
 				'notifier' => self::$NOTIFIER,
 				'events' => self::$errorQueue,
@@ -373,6 +373,10 @@ class BugHook {
 		);
 	}
 
+	/**
+	 * @param $url
+	 * @param $data
+	 */
 	private static function postJSON($url, $data) {
 		$post_string = 'data='.urlencode(json_encode($data));
 
@@ -391,8 +395,6 @@ class BugHook {
 
 		fwrite($fp, $out);
 		fclose($fp);
-
-		return 200;
 	}
 
 	private static function getEndpoint() {
