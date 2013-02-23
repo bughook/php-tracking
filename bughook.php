@@ -35,7 +35,7 @@ class BugHook {
 	private static $useSSL = false;
 	private static $projectRoot;
 	private static $filters = array('password','PHPSESSID','Cookie');
-	private static $endpoint = '';
+	private static $endpoint = 'http://www.bughook.com/endpoint.php';
 	private static $context;
 	private static $userId;
 	private static $metaDataFunction;
