@@ -40,7 +40,6 @@ class BugHook {
 	private static $userId;
 	private static $metaDataFunction;
 	private static $errorReportingLevel;
-	private static $ignoreReportingLevel = false;
 
 	private static $registeredShutdown = false;
 	private static $projectRootRegex;
@@ -164,15 +163,6 @@ class BugHook {
 	 */
 	public static function setErrorReportingLevel($errorReportingLevel) {
 		self::$errorReportingLevel = $errorReportingLevel;
-	}
-
-	/**
-	 * BugHook will ignore error reporting level and log all events
-	 *
-	 * @param boolean $ignoreReportingLevel
-	 */
-	public static function setIgnoreReportingLevel($ignoreReportingLevel) {
-		self::$ignoreReportingLevel = $ignoreReportingLevel;
 	}
 
 	/**
@@ -546,9 +536,7 @@ class BugHook {
 	}
 
 	private static function shouldNotify($errno) {
-		if(self::$ignoreReportingLevel)  {
-			return true;
-		} else if(isset(self::$errorReportingLevel)) {
+		if(isset(self::$errorReportingLevel)) {
 			return self::$errorReportingLevel & $errno;
 		} else {
 			return error_reporting() & $errno;
