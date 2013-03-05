@@ -35,7 +35,7 @@ class BugHook {
 	private static $useSSL = false;
 	private static $projectRoot;
 	private static $filters = array('password','PHPSESSID','Cookie');
-	private static $endpoint = 'www.bughook.com/endpoint.php';
+	private static $endpoint = '';
 	private static $context;
 	private static $userId;
 	private static $metaDataFunction;
@@ -84,6 +84,15 @@ class BugHook {
 	 */
 	public static function setNotifyReleaseStages($notifyReleaseStages) {
 		self::$notifyReleaseStages = $notifyReleaseStages;
+	}
+
+	/**
+	 * Set the target for the tracking stuff - you will get that in your customer area of BugHook
+	 *
+	 * @param String $endpoint endpoint for tracking
+	 */
+	public static function setEndpoint($endpoint) {
+		self::$endpoint = $endpoint;
 	}
 
 	/**
@@ -374,7 +383,11 @@ class BugHook {
 
 		$fp = fsockopen($parts['host'],isset($parts['port'])?$parts['port']:80,$errno, $errstr, 30);
 
-		$out = "POST ".$parts['path']." HTTP/1.1\r\n";
+		if(!isset($parts['path'])) {
+			$out = "POST / HTTP/1.1\r\n";
+		} else {
+			$out = "POST ".$parts['path']." HTTP/1.1\r\n";
+		}
 		$out.= "Host: ".$parts['host']."\r\n";
 		$out.= "Content-Type: application/x-www-form-urlencoded\r\n";
 		$out.= "Content-Length: ".strlen($post_string)."\r\n";
